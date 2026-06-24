@@ -29,8 +29,19 @@ def all_horizontal(*exprs: IntoExpr | Iterable[IntoExpr]) -> Expr:
 
     Notes
     -----
+    Non-boolean columns are automatically cast to boolean using truthiness evaluation
+    (0 and 0.0 are ``False``, all other values are ``True``). This differs from the
+    vertical :meth:`Expr.all` aggregation, which requires boolean input.
+
     `Kleene logic`_ is used to deal with nulls: if the column contains any null values
-    and no `False` values, the output is null.
+    and no `False` values, the output is null. This null handling also differs from
+    the vertical :meth:`Expr.all`, which ignores nulls by default
+    (``ignore_nulls=True``).
+
+    .. warning::
+        From Polars 2.0, the null handling will change to match the vertical
+        :meth:`Expr.all` (nulls ignored by default). See
+        https://github.com/pola-rs/polars/issues/17827.
 
     .. _Kleene logic: https://en.wikipedia.org/wiki/Three-valued_logic
 
@@ -74,8 +85,19 @@ def any_horizontal(*exprs: IntoExpr | Iterable[IntoExpr]) -> Expr:
 
     Notes
     -----
+    Non-boolean columns are automatically cast to boolean using truthiness evaluation
+    (0 and 0.0 are ``False``, all other values are ``True``). This differs from the
+    vertical :meth:`Expr.any` aggregation, which requires boolean input.
+
     `Kleene logic`_ is used to deal with nulls: if the column contains any null values
-    and no `True` values, the output is null.
+    and no `True` values, the output is null. This null handling also differs from
+    the vertical :meth:`Expr.any`, which ignores nulls by default
+    (``ignore_nulls=True``).
+
+    .. warning::
+        From Polars 2.0, the null handling will change to match the vertical
+        :meth:`Expr.any` (nulls ignored by default). See
+        https://github.com/pola-rs/polars/issues/17827.
 
     .. _Kleene logic: https://en.wikipedia.org/wiki/Three-valued_logic
 
